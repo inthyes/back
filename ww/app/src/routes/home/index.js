@@ -14,12 +14,16 @@ router.get("/register", ctrl.output.register);
 router.get('/laundry', ctrl.output.laundry);
 router.get('/history', ctrl.output.history);
 router.get('/myPage', ctrl.output.myPage);
+router.get('/laundry', ctrl.output.laundry);
 
 router.use("/myPage", require("./myPage"));
 router.use("/laundry", require("./laundry"));
+router.use("/search", require("./search"));
 
+// router.post('/laundry', ctrl.process.laundryDetail)
 router.post("/login", ctrl.process.login);
 router.post("/register", ctrl.process.register);
+router.post("/cart/:poductId/cart", ctrl.process.addCart);
 
 
 
