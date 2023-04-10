@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주문 내역</title>
+</head>
+<body>
+    <h1>주문 내역</h1>
+    <table id="cartTable">
+        <thead>
+            <tr>
+                <th>상품명</th>
+                <th>수량</th>
+                <th>가격</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% cart.forEach(function(item) { %>
+                <tr>
+                    <td><%= item.PRODUCT_NAME %></td>
+                    <td><%= item.quantity %></td>
+                    <td><%= item.price * item.quantity %>원</td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <h2>총 결제 금액: <%= total %>원</h2>
+
+    <form action="/order" method="post">
+        <input type="hidden" name="cart" value="<%= JSON.stringify(cart) %>">
+        <input type="hidden" name="total" value="<%= total %>">
+        <button type="submit">주문하기</button>
+    </form>
+</body>
+</html>
+
+<script>
+    // 카트 데이터 가져오기
+    const cartInput = document.querySelector('#cart');
+    const cart = JSON.parse(cartInput.value);
+
+    const cartTable = document.querySelector('#cartTable');
+
+    // 카트에 담긴 상품 목록을 테이블에 출력
+    cart.forEach(function(item) {
+        const row = document.createElement('tr');
+
+        const nameCell = document.createElement('td');
+        nameCell.textContent = item.PRODUCT_NAME;
+        row.appendChild(nameCell);
+
+        const quantityCell = document.createElement('td');
+        quantityCell.textContent = item.quantity;
+        row.appendChild(quantityCell);
+
+        const priceCell = document.createElement('td');
+        priceCell.textContent = item.price * item.quantity;
+        row.appendChild(priceCell);
+
+        cartTable.querySelector('tbody').appendChild(row);
+    });
+</script>
