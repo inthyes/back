@@ -5,6 +5,7 @@ const UserStorage = require("../../models/UserStorage");
 const Laundry = require("../../models/Laundry");
 const User = require("../../models/User");
 const Product = require("../../models/Product");
+const Cart = require("../../models/Cart");
 
 
 const output ={
@@ -69,6 +70,11 @@ const output ={
             laundryDetail : laundryDetailRes,
             productDetail : productDetailRes
         });
+    },
+    // 장바구니(세탁신청) page
+    cart: async(req, res) => {
+        logger.info(`GET /basket 304 "장바구니(주문내역) 화면으로 이동`);
+        res.render("home/cart");
     }
 };
 
@@ -97,8 +103,12 @@ const process = {
 
         log(response, url);
         return res.status(url.status).json(response);
-
     },
+
+    addCart: async (req, res) => {
+        const cart = new Cart(req.params, req.body);
+        const response = await cart.add();
+    }
 
 
     // 필요시 작성
